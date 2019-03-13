@@ -75,6 +75,13 @@ class FlaskrTestCase(unittest.TestCase):
         self.assertIn(b'&lt;Hello&gt;', rv.data)
         self.assertIn(b'<strong>HTML</strong> allowed here', rv.data)
 
+    def test_user_can_search_messages(self):
+        """Ensure that the user can find messages"""
+        self.login(app.config['USERNAME'], app.config['PASSWORD'])
+        rv = self.app.get('/search/?query=Hello', follow_redirects=True)
+        self.assertIn(b'Found stuff', rv.data)
+        
+
     def test_user_can_delete_message(self):
         """Ensure that messages can be deleted"""
         rv = self.app.get('/delete/1')
